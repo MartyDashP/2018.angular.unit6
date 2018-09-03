@@ -8,22 +8,17 @@ import {Task} from '../task';
 })
 export class TaskComponent implements OnInit {
 
-  @Input()
-  task: Task;
+  @Input() task: Task;
+  @Input() isLastStage: boolean;
+  @Input() isFirstStage: boolean;
+  @Output() eventMoveTask: EventEmitter<string> = new EventEmitter<string>();
 
-  @Input()
-  moveEnabled: boolean;
-
-  @Output()
-  moveTask: EventEmitter<Task> = new EventEmitter<Task>();
-
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  moveAhead() {
-    this.moveTask.emit(this.task);
-  }
+  // < - назад, > - вперед
+  moveTask = (direction: string) => this.eventMoveTask.emit(direction);
+
 }

@@ -1,1 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: Ubuntu-Regular;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+@font-face {
+  font-family: 'Ubuntu-Regular';
+  src: local("Ubuntu-Regular"), local("Ubuntu-Regular"), url("assets/fonts/Ubuntu/Ubuntu-Regular.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+button {
+  background-color: #ffffff;
+  outline: none;
+  border: solid 1px;
+  border-color: #aaaaaa;
+  color: #aaaaaa;
+  transition: 0.3s;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+button:hover {
+  background-color: #aaaaaa;
+  color: #ffffff;
+}
+
+button:active {
+  background-color: #cccccc;
+  color: #ffffff;
+}
+
+input {
+  outline: none;
+  background-color: #ffffff;
+  border: none;
+  border-bottom: solid 1px;
+  border-color: #aaaaaa;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+input:focus {
+  border-color: #e073ff;
+}
+
+textarea {
+  outline: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

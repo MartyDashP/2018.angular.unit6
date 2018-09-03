@@ -1,3 +1,13 @@
-<div *ngFor="let stage of stages; let i=index; let isLast=last;">
-  <app-stage [moveEnabled]="!isLast" (moveTask)="onMoveTask($event, i)" [stage]="stage"></app-stage>
+<div *ngIf="getActiveBoard() !== null" class="states">
+  <div *ngFor="let stage of getActiveBoard().stages; let idStage = index; let isLast = last;">
+
+    <app-stage
+      [stage]="stage"
+      [isLastStage]="isLast"
+      [isFirstStage]="idStage === 0 ? true : false"
+      (eventAddTaskFromStage)="addTask(idStage)"
+      (eventMoveTask)="moveTask($event, idStage)">
+    </app-stage>
+
+  </div>
 </div>

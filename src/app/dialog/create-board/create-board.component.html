@@ -1,0 +1,17 @@
+<p class="title">Новая доска</p>
+
+
+<input [formControl]="titleBoard" placeholder="Название">
+<div class="states" >
+  <p>Состояния:</p>
+  <div class="plus-minus">
+    <button class="btn-state" (click)="increment()">+</button>
+    <button class="btn-state" (click)="decrement()">-</button>
+  </div>
+
+  <input *ngFor="let stage of stages let i=index" [formControl]="stage" [placeholder]="'Имя состояния ' + (i + 1)">
+</div>
+
+<p *ngIf="flagError">Все поля должны быть заполнены!</p>
+
+<button class="submit" (click)="createBoard()">Создать</button>

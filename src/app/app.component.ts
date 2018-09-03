@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Board} from './board';
+import {BoardsService} from './boards.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'yak4';
+  typeDialog: string;
+  idBoard: number;
+  idStage: number;
+
+  constructor(private boardsService: BoardsService) {
+    this.typeDialog = '';
+    //this.typeDialog = 'createTask';
+  }
+
+  hideDialog = () => this.typeDialog = '';
+  getBoards = () => this.boardsService.getBoards();
+  setActive = (id: number) => this.boardsService.setActive(id);
+  isActive = (id: number) => this.boardsService.isActive(id);
+  getIdActiveBoard =  () => this.boardsService.getIdActiveBoard();
+
+  showDialog = (type: string, idBoard: number = null, idStage: number = null) =>  {
+    this.typeDialog = type;
+    this.idBoard = idBoard;
+    this.idStage = idStage;
+  }
 }
+

@@ -1,0 +1,52 @@
+.tabs {
+  display: flex;
+  flex-flow: row nowrap;
+  border-bottom: solid 1px;
+  border-color: #aaaaaa;
+  padding: 0px 5px 0px 5px;
+}
+
+ul {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-flow: row nowrap;
+  list-style-type: none;
+}
+
+ul li {
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  border-top: solid 1px;
+  border-left: solid 1px;
+  border-right: solid 1px;
+  border-color: #aaaaaa;
+}
+
+.notActive {
+  background-color: #aaaaaa;
+  color: #ffffff;
+  transition: 0.2ms;
+}
+
+.active {
+  background-color: #ffffff;
+}
+
+.notActive {
+  background-color: #aaaaaa;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  transition: 0.2ms;
+}
+
+.notActive:hover {
+  background-color: #dddddd;
+  color: #333333;
+}
+
+.notActive:active {
+  background-color: #dddddd;
+  color: #333333;
+}

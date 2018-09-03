@@ -1,0 +1,8 @@
+<p class="title">Новая задача</p>
+
+<input placeholder="Задача" [formControl]="title">
+<input placeholder="Ответсвенный" [formControl]="responsible">
+<textarea [formControl]="discriptions" placeholder="Описание"></textarea>
+
+
+<button class="submit" (click)="createTask()">Создать</button>

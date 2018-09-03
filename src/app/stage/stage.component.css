@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  border-right: solid 1px;
+  border-color: #aaaaaa;
+  padding: 10px 20px 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  min-width: 350px;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.header p {
+  flex-grow: 1;
+}
+
+.tesk {
+  background-color: red;
+  border: solid 1px;
+  margin: 10px;
+}

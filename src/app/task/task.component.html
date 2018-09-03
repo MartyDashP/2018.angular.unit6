@@ -1,5 +1,19 @@
-<p>
-  Сделать: {{task.title}}, приоритет: {{task.priority}}
+<p class="title">
+  {{task.title}}
 </p>
 
-<button *ngIf="moveEnabled" (click)="moveAhead()">Вперед</button>
+<p class="discription">
+  Описание: <br>
+  {{task.discription}}
+</p>
+
+<p class="responsible">
+  Ответсвенный: {{task.responsible}}
+</p>
+
+
+<div class="moveBtns">
+  <button *ngIf="!isFirstStage" (click)="moveTask('<')"><--</button>
+  <button *ngIf="!isLastStage" (click)="moveTask('>')">--></button>
+</div>
+

@@ -1,0 +1,29 @@
+:host {
+  width: 350px;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.title {
+  font-size: 1.2em;
+}
+
+.states {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+p {
+  margin: 3px;
+}
+
+.plus-minus {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-content: center;
+  padding: 0px;
+  margin: 0px;
+}

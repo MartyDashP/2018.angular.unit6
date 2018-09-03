@@ -1,0 +1,18 @@
+<div class="dialog">
+  <div class="control">
+    <button class="btn-close" (click)="closeDialog()">X</button>
+  </div>
+
+  <app-create-board
+    *ngIf="type === 'createBoard'"
+    (eventCreateBoard)="createBoard($event)">
+  </app-create-board>
+
+  <app-create-task
+    *ngIf="type === 'createTask'"
+    [idBoard]="idBoard"
+    [idTask]="idTask"
+    (eventSuccessfulOperation)="closeDialog()">
+  </app-create-task>
+
+</div>
