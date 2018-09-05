@@ -12,6 +12,6 @@
   <input *ngFor="let stage of stages let i=index" [formControl]="stage" [placeholder]="'Имя состояния ' + (i + 1)">
 </div>
 
-<p *ngIf="flagError">Все поля должны быть заполнены!</p>
+<p *ngIf="flagError" class="msg-error">Все поля должны быть заполнены!</p>
 
 <button class="submit" (click)="createBoard()">Создать</button>

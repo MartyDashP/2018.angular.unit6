@@ -15,6 +15,7 @@ export class DialogComponent implements OnInit {
   @Input() type: string;
   @Input() idBoard: number;
   @Input() idTask: number;
+  @Input() idStage: number;
 
   @Output() eventCloseDialog: EventEmitter<null> = new EventEmitter<null>();
 

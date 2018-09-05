@@ -1,19 +1,14 @@
 <p class="title">
   {{task.title}}
 </p>
-
-<p class="discription">
-  Описание: <br>
-  {{task.discription}}
+<p *ngIf="task.isDeadline">
+  Дедлайн через: <br>
+  {{remainingTime}}
 </p>
-
-<p class="responsible">
-  Ответсвенный: {{task.responsible}}
-</p>
-
 
 <div class="moveBtns">
   <button *ngIf="!isFirstStage" (click)="moveTask('<')"><--</button>
+  <button (click)="showDetails()">Подробнее</button>
   <button *ngIf="!isLastStage" (click)="moveTask('>')">--></button>
 </div>
 

@@ -54,3 +54,44 @@ textarea {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+label {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.msg-error {
+  background-color: #FF9595;
+  border: solid 1px;
+  border-color: #FF8888;
+  margin: 0px;
+  padding: 5px 10px 5px 10px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.group-v-nw {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-h-nw {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+select {
+  background-color: #ffffff;
+  border: solid 1px;
+  border-color: #aaaaaa;
+  padding: 10px 15px 10px 15px;
+  font-size: 0.8em;
+  margin: 5px;
+}

@@ -11,8 +11,15 @@
   <app-create-task
     *ngIf="type === 'createTask'"
     [idBoard]="idBoard"
-    [idTask]="idTask"
+    [idStage]="idStage"
     (eventSuccessfulOperation)="closeDialog()">
   </app-create-task>
+
+  <app-details
+  *ngIf="type === 'details'"
+  [idBoard]="idBoard"
+  [idStage]="idStage"
+  [idTask]="idTask">
+  </app-details>
 
 </div>

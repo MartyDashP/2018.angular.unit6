@@ -1,8 +1,12 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+
+}
+
 .tabs {
   display: flex;
   flex-flow: row nowrap;
-  border-bottom: solid 1px;
-  border-color: #aaaaaa;
   padding: 0px 5px 0px 5px;
 }
 
@@ -49,4 +53,8 @@ ul li {
 .notActive:active {
   background-color: #dddddd;
   color: #333333;
+}
+
+h1 {
+  margin: 10px 10px 10px 10px;
 }

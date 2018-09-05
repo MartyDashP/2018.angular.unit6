@@ -8,8 +8,7 @@
     [task]="task"
     [isLastStage]="isLastStage"
     [isFirstStage]="isFirstStage"
-    (eventMoveTask)="moveTask($event, idTask)">
+    (eventMoveTask)="moveTask($event, idTask)"
+    (eventShowDetails)="showDetails(idTask)">
   </app-task>
 </div>
-
-<!--[moveEnabled]="moveEnabled" -->

@@ -11,6 +11,7 @@ export class AppComponent {
   typeDialog: string;
   idBoard: number;
   idStage: number;
+  idTask: number;
 
   constructor(private boardsService: BoardsService) {
     this.typeDialog = '';
@@ -23,10 +24,12 @@ export class AppComponent {
   isActive = (id: number) => this.boardsService.isActive(id);
   getIdActiveBoard =  () => this.boardsService.getIdActiveBoard();
 
-  showDialog = (type: string, idBoard: number = null, idStage: number = null) =>  {
+  showDialog = (type: string, idBoard: number = null, idStage: number = null, idTask: number = null) =>  {
     this.typeDialog = type;
     this.idBoard = idBoard;
     this.idStage = idStage;
+    this.idTask = idTask;
   }
+
 }
 

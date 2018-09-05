@@ -26,6 +26,7 @@ export class BoardsService {
   getBoards = () => this.boards;
   getActiveBoard = () => this.idActive !== null ? this.boards[this.idActive] : null;
   getIdActiveBoard = () => this.idActive;
+  getTask = (idBoard: number, idStage: number, idTask: number): Task => this.boards[idBoard].stages[idStage].tasks[idTask];
   setActive = (id: number) => this.idActive = id;
   isActive = (id: number) => id === this.idActive;
 
@@ -39,6 +40,7 @@ export class BoardsService {
     else
       this.boards[this.idActive].stages[data.idStage + 1].tasks.push(task);
   }
+
 }
 
 

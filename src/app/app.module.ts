@@ -10,6 +10,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { CreateBoardComponent } from './dialog/create-board/create-board.component';
 import {BoardsService} from './boards.service';
 import { CreateTaskComponent } from './dialog/create-task/create-task.component';
+import { DetailsComponent } from './dialog/details/details.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CreateTaskComponent } from './dialog/create-task/create-task.component'
     TaskComponent,
     DialogComponent,
     CreateBoardComponent,
-    CreateTaskComponent
+    CreateTaskComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,

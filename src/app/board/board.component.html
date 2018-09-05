@@ -1,13 +1,15 @@
-<div *ngIf="getActiveBoard() !== null" class="states">
-  <div *ngFor="let stage of getActiveBoard().stages; let idStage = index; let isLast = last;">
+<table *ngIf="getActiveBoard() !== null">
+  <tr>
+    <td *ngFor="let stage of getActiveBoard().stages; let idStage = index; let isLast = last;">
+      <app-stage
+        [stage]="stage"
+        [isLastStage]="isLast"
+        [isFirstStage]="idStage === 0 ? true : false"
+        (eventAddTaskFromStage)="addTask(idStage)"
+        (eventMoveTask)="moveTask($event, idStage)"
+        (eventShowDetails)="showDetailsOfTask(idStage, $event)">
+      </app-stage>
+    </td>
+  </tr>
+</table>
 
-    <app-stage
-      [stage]="stage"
-      [isLastStage]="isLast"
-      [isFirstStage]="idStage === 0 ? true : false"
-      (eventAddTaskFromStage)="addTask(idStage)"
-      (eventMoveTask)="moveTask($event, idStage)">
-    </app-stage>
-
-  </div>
-</div>

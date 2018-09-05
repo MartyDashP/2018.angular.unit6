@@ -14,6 +14,7 @@ export class StageComponent implements OnInit {
   @Input() isFirstStage: boolean;
   @Output() eventMoveTask: EventEmitter<any> = new EventEmitter<any>();
   @Output() eventAddTaskFromStage: EventEmitter<null> = new EventEmitter<null>();
+  @Output() eventShowDetails: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
 
@@ -22,4 +23,5 @@ export class StageComponent implements OnInit {
 
   addTask = () => this.eventAddTaskFromStage.emit();
   moveTask = ($event: string, idTask: number) => this.eventMoveTask.emit({'direction': $event, 'idTask': idTask});
+  showDetails = (idTask: number) => this.eventShowDetails.emit(idTask);
 }

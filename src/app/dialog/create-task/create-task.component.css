@@ -9,3 +9,17 @@
 .title {
   font-size: 1.2em;
 }
+
+p {
+  margin: 3px;
+}
+
+.deadline-group {
+  display: flex;
+  flex-flow: column nowrap;
+  align-content: center;
+  justify-content: center;
+}
+
+
+

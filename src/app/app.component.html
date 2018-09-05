@@ -16,8 +16,12 @@
   *ngIf="typeDialog !== ''"
   [type]="typeDialog"
   [idBoard]="idBoard"
-  [idTask]="idStage"
+  [idStage]="idStage"
+  [idTask]="idTask"
   (eventCloseDialog)="hideDialog()"
 ></app-dialog>
 
-<app-board (eventAddTaskFromBoard)="showDialog('createTask',  getIdActiveBoard(), $event)"></app-board>
+<app-board
+  (eventShowDetailsOfTask)="showDialog('details', getIdActiveBoard(), $event.idStage, $event.idTask)"
+  (eventAddTaskFromBoard)="showDialog('createTask',  getIdActiveBoard(), $event)">
+</app-board>
