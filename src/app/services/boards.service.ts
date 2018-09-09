@@ -3,9 +3,7 @@ import {Board} from '../models/board';
 import {Stage} from '../models/stage';
 import {Task} from '../models/task';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BoardsService {
 
   private boards: Board[];
