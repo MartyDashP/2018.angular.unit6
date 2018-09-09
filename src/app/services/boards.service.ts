@@ -16,8 +16,6 @@ export class BoardsService {
       new Board('Стандарт', [new Stage('Планы'), new Stage('Выполнено')])
     ];
     this.idActive = 0;
-    // this.boards = [];
-    // this.idActive = null;
   }
 
   addBoard = (newBoard: Board) => this.idActive = this.boards.push(newBoard) - 1;
@@ -28,11 +26,11 @@ export class BoardsService {
   getTask = (idBoard: number, idStage: number, idTask: number): Task => this.boards[idBoard].stages[idStage].tasks[idTask];
   setActive = (id: number) => this.idActive = id;
   isActive = (id: number) => id === this.idActive;
+  deleteBoard = (idBoard: number) => this.boards.splice(idBoard, 1);
 
   moveTask = (data: any) => {
     let task: Task = this.boards[this.idActive].stages[data.idStage].tasks[data.idTask];
     this.boards[this.idActive].stages[data.idStage].tasks.splice(data.idTask, 1);
-
 
     if (data.direction === '<')
       this.boards[this.idActive].stages[data.idStage - 1].tasks.push(task);

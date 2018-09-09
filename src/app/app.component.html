@@ -6,6 +6,11 @@
         [ngClass]="{'active': isActive(idBoard) === true, 'notActive': isActive(idBoard) === false}"
     >
       {{board.name}}
+      <button
+        class="delete"
+        (click)="deleteBoard(idBoard)">
+        X
+      </button>
     </li>
 
   </ul>

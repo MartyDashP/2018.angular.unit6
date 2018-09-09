@@ -22,14 +22,16 @@ export class AppComponent {
   getBoards = () => this.boardsService.getBoards();
   setActive = (id: number) => this.boardsService.setActive(id);
   isActive = (id: number) => this.boardsService.isActive(id);
-  getIdActiveBoard =  () => this.boardsService.getIdActiveBoard();
+  getIdActiveBoard = () => this.boardsService.getIdActiveBoard();
+  deleteBoard = (idBoard: number) => this.boardsService.deleteBoard(idBoard);
 
-  showDialog = (type: string, idBoard: number = null, idStage: number = null, idTask: number = null) =>  {
-    this.typeDialog = type;
-    this.idBoard = idBoard;
-    this.idStage = idStage;
-    this.idTask = idTask;
-  }
+    showDialog = (type: string, idBoard: number = null, idStage: number = null, idTask: number = null) => {
+      this.typeDialog = type;
+      this.idBoard = idBoard;
+      this.idStage = idStage;
+      this.idTask = idTask;
+    }
 
 }
+
 

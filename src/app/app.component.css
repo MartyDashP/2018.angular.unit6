@@ -25,6 +25,9 @@ ul li {
   border-left: solid 1px;
   border-right: solid 1px;
   border-color: #aaaaaa;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
 }
 
 .notActive {
@@ -57,4 +60,24 @@ ul li {
 
 h1 {
   margin: 10px 10px 10px 10px;
+}
+
+.delete {
+  min-width: 20px;
+  min-height: 20px;
+  font-size: 0.6em;
+  margin-left: 10px;
+  border: none;
+  background-color: #FF888800;
+  color: #000000;
+}
+
+.delete:hover {
+  background-color: #FF8888;
+  color: #ffffff;
+}
+
+.delete:active {
+  background-color: #ff6161;
+  color: #ffffff;
 }
