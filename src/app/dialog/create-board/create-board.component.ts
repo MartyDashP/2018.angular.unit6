@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {Board} from '../../board';
-import {Stage} from '../../stage';
+import {Board} from '../../models/board';
+import {Stage} from '../../models/stage';
 
 @Component({
   selector: 'app-create-board',

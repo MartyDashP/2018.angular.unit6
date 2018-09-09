@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Stage} from '../stage';
-import {Task} from '../task';
-import {BoardsService} from '../boards.service';
-import {Board} from '../board';
+import {Stage} from '../models/stage';
+import {Task} from '../models/task';
+import {BoardsService} from '../services/boards.service';
+import {Board} from '../models/board';
 
 @Component({
   selector: 'app-board',

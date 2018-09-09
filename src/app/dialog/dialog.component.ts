@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Board} from '../board';
-import {BoardsService} from '../boards.service';
+import {Board} from '../models/board';
+import {BoardsService} from '../services/boards.service';
 
 @Component({
   selector: 'app-dialog',

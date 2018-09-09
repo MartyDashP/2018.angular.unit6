@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BoardsService} from '../../boards.service';
-import {Task} from '../../task';
+import {BoardsService} from '../../services/boards.service';
+import {Task} from '../../models/task';
 import {fromEvent, Subscription} from 'rxjs';
 
 @Component({
@@ -81,7 +81,7 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
       this.flagErrorDeadline = this.deadline.invalid;
       deadline = new Date(
         this.deadline.controls.year.value,
-        this.deadline.controls.month.value,
+        this.deadline.controls.month.value - 1,
         this.deadline.controls.day.value,
         this.deadline.controls.hour.value,
         this.deadline.controls.minute.value

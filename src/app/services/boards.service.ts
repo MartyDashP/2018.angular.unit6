@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Board} from './board';
-import {Stage} from './stage';
-import {Task} from './task';
+import {Board} from '../models/board';
+import {Stage} from '../models/stage';
+import {Task} from '../models/task';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,7 @@ export class BoardsService {
 
   constructor() {
     this.boards = [
-      new Board('test', [new Stage('test'), new Stage('testt')]),
-      new Board('test2', [new Stage('test'), new Stage('testt'), new Stage('testt3')])
+      new Board('Стандарт', [new Stage('Планы'), new Stage('Выполнено')])
     ];
     this.idActive = 0;
     // this.boards = [];
