@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px;
+  border-color: #faffc9;
+  background-color: #fbffb4;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.title {
+}
+
+.discription {
+  font-size: 0.7em;
+}
+
+.responsible {
+  font-size: 0.8em;
+}

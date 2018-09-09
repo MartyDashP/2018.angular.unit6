@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Stage, Stages} from '../stage';
-import {Task} from '../task';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Stage} from '../models/stage';
+import {Task} from '../models/task';
+import {BoardsService} from '../services/boards.service';
+import {Board} from '../models/board';
 
 @Component({
   selector: 'app-board',
@@ -9,15 +11,29 @@ import {Task} from '../task';
 })
 export class BoardComponent implements OnInit {
 
-  stages: Stage[] = Stages;
+  @Output() eventAddTaskFromBoard: EventEmitter<number> = new EventEmitter<number>();
+  @Output() eventShowDetailsOfTask: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {
+  constructor(private boardService: BoardsService) {
   }
 
   ngOnInit() {
   }
 
-  onMoveTask($event: Task, i: number) {
-    this.stages[i + 1].tasks.push($event);
-  }
+  getActiveBoard = () => this.boardService.getActiveBoard();
+  addTask = (idStage: number) => this.eventAddTaskFromBoard.emit(idStage);
+
+  moveTask = ($event: any, idStage: number) => this.boardService.moveTask({
+    'direction': $event.direction,
+    'idTask': $event.idTask,
+    'idStage': idStage
+    })
+
+  showDetailsOfTask = (idStage: number, idTask: number) => this.eventShowDetailsOfTask.emit({
+    'idStage': idStage,
+    'idTask': idTask
+  })
+
+
 }
+

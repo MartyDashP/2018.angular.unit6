@@ -1,2 +1,32 @@
-<p> Это Канбан! </p>
-<app-board></app-board>
+<h1>Канбан</h1>
+<div class="tabs">
+  <ul>
+    <li *ngFor="let board of getBoards() let idBoard = index"
+        (click)="setActive(idBoard)"
+        [ngClass]="{'active': isActive(idBoard) === true, 'notActive': isActive(idBoard) === false}"
+    >
+      {{board.name}}
+      <button
+        class="delete"
+        (click)="deleteBoard(idBoard)">
+        X
+      </button>
+    </li>
+
+  </ul>
+  <button (click)="showDialog('createBoard')" class="notActive">+</button>
+</div>
+
+<app-dialog
+  *ngIf="typeDialog !== ''"
+  [type]="typeDialog"
+  [idBoard]="idBoard"
+  [idStage]="idStage"
+  [idTask]="idTask"
+  (eventCloseDialog)="hideDialog()"
+></app-dialog>
+
+<app-board
+  (eventShowDetailsOfTask)="showDialog('details', getIdActiveBoard(), $event.idStage, $event.idTask)"
+  (eventAddTaskFromBoard)="showDialog('createTask',  getIdActiveBoard(), $event)">
+</app-board>

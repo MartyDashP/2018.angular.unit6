@@ -1,5 +1,14 @@
-<p>
-  Сделать: {{task.title}}, приоритет: {{task.priority}}
+<p class="title">
+  {{task.title}}
+</p>
+<p *ngIf="task.isDeadline">
+  Дедлайн через: <br>
+  {{remainingTime}}
 </p>
 
-<button *ngIf="moveEnabled" (click)="moveAhead()">Вперед</button>
+<div class="moveBtns">
+  <button *ngIf="!isFirstStage" (click)="moveTask('<')"><--</button>
+  <button (click)="showDetails()">Подробнее</button>
+  <button *ngIf="!isLastStage" (click)="moveTask('>')">--></button>
+</div>
+
