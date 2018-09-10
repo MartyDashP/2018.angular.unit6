@@ -16,7 +16,8 @@ export class StageComponent implements OnInit {
   @Output() eventAddTaskFromStage: EventEmitter<null> = new EventEmitter<null>();
   @Output() eventShowDetails: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

@@ -44,11 +44,11 @@ export class TaskComponent implements OnInit, OnDestroy {
       clearInterval(this.timer);
       return 'Время на выполнение задачи истекло!';
     }
-  }
+  };
 
   // < - назад, > - вперед
   moveTask = (direction: string) => this.eventMoveTask.emit(direction);
-  showDetails = idTask => this.eventShowDetails.emit();
+  showDetails = () => this.eventShowDetails.emit();
 
   ngOnDestroy(): void {
     clearInterval(this.timer);

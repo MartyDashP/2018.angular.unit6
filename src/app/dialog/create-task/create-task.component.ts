@@ -29,7 +29,7 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
     'days': true,
     'hours': true,
     'minuts': true
-  }
+  };
 
   subscrYear: Subscription;
   subscrMonth: Subscription;
@@ -72,7 +72,7 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
     for (let i: number = start; i <= end; i++)
       arr.push(i);
     return arr;
-  }
+  };
 
   createTask() {
     let deadline = new Date();
@@ -105,16 +105,16 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
   }
 
   getDaysInMonth = (year: number, month: number): number => 33 - new Date(year, month, 33).getDate();
-  getYears = (): number[] => this.counter(this.now.getFullYear(), this.now.getFullYear() + 3 );
+  getYears = (): number[] => this.counter(this.now.getFullYear(), this.now.getFullYear() + 3);
   getMonths = () => this.flagsFilter.months ? this.counter(new Date().getMonth() + 1, 12) : this.counter(1, 12);
-  getHours = () => this.flagsFilter.hours ?  this.counter(new Date().getHours(), 23) : this.counter(0, 23);
+  getHours = () => this.flagsFilter.hours ? this.counter(new Date().getHours(), 23) : this.counter(0, 23);
   getMinutes = () => this.flagsFilter.minuts ? this.counter(new Date().getMinutes(), 59) : this.counter(0, 59);
   getDays = () => {
     if (this.flagsFilter.days)
       return this.counter(new Date().getDate(), this.getDaysInMonth(this.deadline.controls.year.value, this.deadline.controls.month.value - 1));
     else
       return this.counter(1, this.getDaysInMonth(this.deadline.controls.year.value, this.deadline.controls.month.value - 1));
-  }
+  };
 
   ngOnDestroy(): void {
     this.subscrYear.unsubscribe();

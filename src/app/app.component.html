@@ -24,9 +24,12 @@
   [idStage]="idStage"
   [idTask]="idTask"
   (eventCloseDialog)="hideDialog()"
+  (eventAddBoard)="setActive($event)"
 ></app-dialog>
 
 <app-board
   (eventShowDetailsOfTask)="showDialog('details', getIdActiveBoard(), $event.idStage, $event.idTask)"
-  (eventAddTaskFromBoard)="showDialog('createTask',  getIdActiveBoard(), $event)">
+  (eventAddTaskFromBoard)="showDialog('createTask',  getIdActiveBoard(), $event)"
+  (eventMoveTask)="moveTask($event)"
+  [idActiveBoard]="getIdActiveBoard()">
 </app-board>

@@ -25,24 +25,24 @@ export class CreateBoardComponent implements OnInit {
 
   increment = () => this.stages.push(new FormControl('', [Validators.required]));
   decrement = (): void => {
-    if(this.stages.length > 2)
-      this.stages.pop()
-  }
+    if (this.stages.length > 2)
+      this.stages.pop();
+  };
 
   createBoard = () => {
     this.flagError = this.titleBoard.invalid;
-    for(let state of this.stages) {
-      if(!this.flagError)
+    for (let state of this.stages) {
+      if (!this.flagError)
         this.flagError = state.invalid;
     }
 
-    if(!this.flagError) {
+    if (!this.flagError) {
       let phases: Stage[] = [];
-      for(let stage of this.stages)
+      for (let stage of this.stages)
         phases.push(new Stage(stage.value));
       this.eventCreateBoard.emit(new Board(this.titleBoard.value, phases));
     }
-  }
+  };
 
   @Output()
   eventCreateBoard: EventEmitter<Board> = new EventEmitter<Board>();

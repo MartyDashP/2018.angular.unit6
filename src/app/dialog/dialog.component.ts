@@ -18,6 +18,7 @@ export class DialogComponent implements OnInit {
   @Input() idStage: number;
 
   @Output() eventCloseDialog: EventEmitter<null> = new EventEmitter<null>();
+  @Output() eventAddBoard: EventEmitter<number> = new EventEmitter<number>();
 
   ngOnInit() {
   }
@@ -25,12 +26,12 @@ export class DialogComponent implements OnInit {
   closeDialog = () => {
     this.type = '';
     this.eventCloseDialog.emit();
-  }
+  };
 
   createBoard = (newBoard: Board): void => {
-    this.boardsService.addBoard(newBoard);
+    this.eventAddBoard.emit(this.boardsService.addBoard(newBoard));
     this.closeDialog();
-  }
+  };
 }
 
 
