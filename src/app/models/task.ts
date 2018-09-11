@@ -1,14 +1,17 @@
 export class Task {
-  title: string;
+  name: string;
   discription: string;
   deadline: Date;
-  responsible: string;
+  executor: string;
   isDeadline: boolean;
+  id: number;
+  priority: number;
+  stageId: number;
 
   constructor(title: string, discription: string, responsible: string, isDeadline: boolean, deadline: Date = null) {
-    this.title = title;
+    this.name = title;
     this.discription = discription;
-    this.responsible = responsible;
+    this.executor = responsible;
     this.deadline = deadline;
     this.isDeadline = isDeadline;
   }
