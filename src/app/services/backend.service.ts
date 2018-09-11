@@ -25,8 +25,8 @@ export class BackendService {
   updStage = (stage: Stage): Observable<Stage> => this.http.put<Stage>(URL + '/stages/${stage.id}', stage);
   delStage = (id: number): Observable<null> => this.http.delete<null>(URL + '/stages/${id}');
 
-  getTasksOfStage = (): Observable<Task> => this.http.get<Task>(URL + '/stages/${id}/tasks');
-  getTasks = (): Observable<Task> => this.http.get<Task>(URL + '/tasks');
+  getTasksOfStage = (): Observable<Task[]> => this.http.get<Task[]>(URL + '/stages/${id}/tasks');
+  getTasks = (): Observable<Task[]> => this.http.get<Task[]>(URL + '/tasks');
   addTask = (task: Task): Observable<Task> => this.http.post<Task>(URL + '/tasks', task);
   getTask = (id: number): Observable<Task> => this.http.get<Task>(URL + '/tasks/${id}');
   updTask = (task: Task): Observable<Task> => this.http.put<Task>(URL + '/tasks/${id}', task);
