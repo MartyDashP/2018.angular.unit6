@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Task} from '../models/task';
-import {UnitTime} from '../models/unit-time';
+import {Task} from '../../../../models/task';
+import {UnitTime} from '../../../../models/unit-time';
 
 @Component({
   selector: 'app-task',

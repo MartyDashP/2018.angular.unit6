@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BoardsService} from '../../services/boards.service';
-import {Task} from '../../models/task';
+import {BoardsService} from '../../../services/boards.service';
+import {Task} from '../../../models/task';
 
 @Component({
   selector: 'app-details',

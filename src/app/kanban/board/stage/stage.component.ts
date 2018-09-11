@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Stage} from '../models/stage';
-import {Task} from '../models/task';
+import {Stage} from '../../../models/stage';
+import {Task} from '../../../models/task';
 
 @Component({
   selector: 'app-stage',
