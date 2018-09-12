@@ -8,12 +8,12 @@ import {TaskComponent} from './kanban/board/stage/task/task.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DialogComponent} from './kanban/dialog/dialog.component';
 import {CreateBoardComponent} from './kanban/dialog/create-board/create-board.component';
-import {BoardsService} from './services/boards.service';
 import {CreateTaskComponent} from './kanban/dialog/create-task/create-task.component';
 import {DetailsComponent} from './kanban/dialog/details/details.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BackendService} from './services/backend.service';
-import { KanbanComponent } from './kanban/kanban.component';
+import {KanbanComponent} from './kanban/kanban.component';
+import {KanbanService} from './services/kanban.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { KanbanComponent } from './kanban/kanban.component';
     CreateBoardComponent,
     CreateTaskComponent,
     DetailsComponent,
-    KanbanComponent
+    KanbanComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,8 +34,8 @@ import { KanbanComponent } from './kanban/kanban.component';
     HttpClientModule
   ],
   providers: [
-    BoardsService,
-    BackendService
+    BackendService,
+    KanbanService
   ],
   bootstrap: [AppComponent]
 })

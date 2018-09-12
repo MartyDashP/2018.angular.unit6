@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.timer = setInterval(() => this.remainingTime = this.getRemainingTime(), 1000);
+    if (this.task.isDeadline) this.timer = setInterval(() => this.remainingTime = this.getRemainingTime(), 1000);
   }
 
   private getRemainingTime = (): string => {
@@ -38,12 +38,12 @@ export class TaskComponent implements OnInit, OnDestroy {
       let sec: UnitTime = new UnitTime(
         Math.floor((delta / 1000) - day.value * 24 * 60 * 60 - hour.value * 60 * 60 - min.value * 60),
         'Секунды');
-      return day.getFullValue() + ', ' + hour.getFullValue() + ', ' + min.getFullValue() + ', ' + sec.getFullValue();
+      return `${day.getFullValue()}, ${hour.getFullValue()}, ${min.getFullValue()}, ${sec.getFullValue()}`;
     }
-    else {
-      clearInterval(this.timer);
-      return 'Время на выполнение задачи истекло!';
-    }
+
+    clearInterval(this.timer);
+    return 'Время на выполнение задачи истекло!';
+
   };
 
   // < - назад, > - вперед

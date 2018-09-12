@@ -5,11 +5,14 @@
         [stage]="stage"
         [isLastStage]="isLast"
         [isFirstStage]="idStage === 0 ? true : false"
-        (eventAddTaskFromStage)="addTask(idStage)"
-        (eventMoveTask)="moveTask($event, idStage)"
-        (eventShowDetails)="showDetailsOfTask(idStage, $event)">
+        (eventDialogAddTask)="addTask(getIdActiveBoard(), stage.id)"
+        (eventMoveTask)="moveTask(
+          getIdActiveBoard(),
+          stage.id,
+          $event.idTask,
+          $event.direction === '>' ? getActiveBoard().stages[idStage + 1].id : getActiveBoard().stages[idStage - 1].id)"
+        (eventShowDetails)="showDetailsOfTask($event)">
       </app-stage>
     </td>
   </tr>
 </table>
-

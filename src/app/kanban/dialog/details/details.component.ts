@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BoardsService} from '../../../services/boards.service';
 import {Task} from '../../../models/task';
+import {KanbanService} from '../../../services/kanban.service';
 
 @Component({
   selector: 'app-details',
@@ -8,15 +8,14 @@ import {Task} from '../../../models/task';
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
-  @Input() idBoard: number;
-  @Input() idStage: number;
   @Input() idTask: number;
 
-  constructor(private boardsService: BoardsService) { }
+  constructor(private kanbanService: KanbanService) {
+  }
 
   ngOnInit() {
   }
 
-  getTask = (): Task => this.boardsService.getTask(this.idBoard, this.idStage, this.idTask);
+  getTask = (): Task => this.kanbanService.getTask(this.idTask);
 
 }

@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BoardsService} from '../../services/boards.service';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Board} from '../../models/board';
+import {KanbanService} from '../../services/kanban.service';
 
 @Component({
   selector: 'app-board',
@@ -8,31 +9,31 @@ import {BoardsService} from '../../services/boards.service';
 })
 export class BoardComponent implements OnInit {
 
-  @Input() idActiveBoard: number;
-  @Output() eventAddTaskFromBoard: EventEmitter<number> = new EventEmitter<number>();
-  @Output() eventShowDetailsOfTask: EventEmitter<any> = new EventEmitter<any>();
-  @Output() eventMoveTask: EventEmitter<any> = new EventEmitter<any>();
+  @Output() eventDialogAddTask: EventEmitter<{ idBoard: number, idStage: number }> =
+    new EventEmitter<{ idBoard: number, idStage: number }>();
+  @Output() eventShowDetails: EventEmitter<number> = new EventEmitter<number>();
+  @Output() eventMoveTask: EventEmitter<{ direction: string, idTask: number, idStage: number, idNextStage: number }> =
+    new EventEmitter<{ direction: string, idTask: number, idStage: number, idNextStage: number }>();
 
-  constructor(private boardService: BoardsService) {
+  constructor(private kanbanService: KanbanService) {
   }
 
   ngOnInit() {
   }
 
-  getActiveBoard = () => this.boardService.getBoard(this.idActiveBoard);
-  addTask = (idStage: number) => this.eventAddTaskFromBoard.emit(idStage);
+  getActiveBoard = (): Board => this.kanbanService.getActiveBoard();
+  getIdActiveBoard = (): number => this.kanbanService.getIdActiveBoard();
 
-  moveTask = ($event: any, idStage: number) => this.eventMoveTask.emit({
-    'direction': $event.direction,
-    'idTask': $event.idTask,
+  addTask = (idBoard: number, idStage: number) => this.eventDialogAddTask.emit({
+    'idBoard': idBoard,
     'idStage': idStage
   });
 
-  showDetailsOfTask = (idStage: number, idTask: number) => this.eventShowDetailsOfTask.emit({
-    'idStage': idStage,
-    'idTask': idTask
-  });
+  moveTask = (idBoard: number, idStage: number, idTask: number, idNextStage: number) =>
+    this.kanbanService.moveTask(idBoard, idStage, idTask, idNextStage);
 
 
+  showDetailsOfTask = (idTask: number) => this.eventShowDetails.emit(idTask);
 }
+
 

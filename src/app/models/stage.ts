@@ -7,7 +7,8 @@ export class Stage {
   boardId: number;
   tasks: Task[] = [];
 
-  constructor(name: string) {
+  constructor(id: number, name: string) {
+    this.id = id;
     this.name = name;
   }
 }

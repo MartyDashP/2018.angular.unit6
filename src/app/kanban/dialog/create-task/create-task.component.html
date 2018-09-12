@@ -2,12 +2,12 @@
 
 <input placeholder="Задача*" [formControl]="title">
 <input placeholder="Ответсвенный*" [formControl]="responsible">
-<textarea [formControl]="discriptions" placeholder="Описание"></textarea>
+<textarea [formControl]="descriptions" placeholder="Описание"></textarea>
 <label>
-  <input type="checkbox" [(ngModel)]="timer"> Дедлайн
+  <input type="checkbox" [(ngModel)]="isDeadline"> Дедлайн
 </label>
 
-<form *ngIf="timer" [formGroup]="deadline" class="deadline-group">
+<form *ngIf="isDeadline" [formGroup]="deadline" class="deadline-group">
 
   <div class="group-h-nw">
 

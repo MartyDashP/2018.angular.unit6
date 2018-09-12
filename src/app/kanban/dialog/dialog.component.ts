@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Board} from '../../models/board';
-import {BoardsService} from '../../services/boards.service';
 
 @Component({
   selector: 'app-dialog',
@@ -9,10 +7,10 @@ import {BoardsService} from '../../services/boards.service';
 })
 export class DialogComponent implements OnInit {
 
-  constructor(private boardsService: BoardsService) {
+  constructor() {
   }
 
-  @Input() type: string;
+  @Input() typeDialog: string;
   @Input() idBoard: number;
   @Input() idTask: number;
   @Input() idStage: number;
@@ -24,13 +22,8 @@ export class DialogComponent implements OnInit {
   }
 
   closeDialog = () => {
-    this.type = '';
+    this.typeDialog = '';
     this.eventCloseDialog.emit();
-  };
-
-  createBoard = (newBoard: Board): void => {
-    this.eventAddBoard.emit(this.boardsService.addBoard(newBoard));
-    this.closeDialog();
   };
 }
 

@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BoardsService} from '../../../services/boards.service';
 import {Task} from '../../../models/task';
-import {fromEvent, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
+import {KanbanService} from '../../../services/kanban.service';
 
 @Component({
   selector: 'app-create-task',
@@ -16,37 +16,36 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
   @Output() eventSuccessfulOperation: EventEmitter<null> = new EventEmitter<null>();
 
   title: FormControl;
-  discriptions: FormControl;
+  descriptions: FormControl;
   responsible: FormControl;
-  timer: boolean;
+  isDeadline: boolean;
   flagError: boolean;
   flagErrorDeadline: boolean;
   deadline: FormGroup;
 
   flagsFilter = {
-    'years': true,
     'months': true,
     'days': true,
     'hours': true,
     'minuts': true
   };
 
-  subscrYear: Subscription;
-  subscrMonth: Subscription;
-  subscrDay: Subscription;
-  subscrHour: Subscription;
+  subscriptions: Subscription[] = [];
 
   private now: Date;
 
-
-  constructor(private boardsService: BoardsService) {
-    this.title = new FormControl('', [Validators.required]);
-    this.discriptions = new FormControl('');
-    this.responsible = new FormControl('', [Validators.required]);
-    this.timer = false;
+  constructor(private kanbanService: KanbanService) {
+    this.isDeadline = false;
     this.flagError = false;
     this.flagErrorDeadline = false;
     this.now = new Date();
+    this.initControls();
+  }
+
+  initControls = () => {
+    this.title = new FormControl('', [Validators.required]);
+    this.descriptions = new FormControl('');
+    this.responsible = new FormControl('', [Validators.required]);
     this.deadline = new FormGroup({
       day: new FormControl(this.now.getDate(), [Validators.required]),
       month: new FormControl(this.now.getMonth() + 1, [Validators.required]),
@@ -54,17 +53,21 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
       hour: new FormControl(this.now.getHours(), [Validators.required]),
       minute: new FormControl(this.now.getMinutes(), [Validators.required])
     });
-  }
+  };
 
   ngOnInit() {
-    this.subscrYear = this.deadline.controls.year.valueChanges.subscribe(
-      value => this.flagsFilter.months = (value == this.now.getFullYear())
+    this.subscriptions.push(this.deadline.controls.year.valueChanges
+      .subscribe(value => this.flagsFilter.months = (value === this.now.getFullYear()))
     );
-    this.subscrMonth = this.deadline.controls.month.valueChanges.subscribe(
-      value => this.flagsFilter.days = (value == this.now.getMonth() + 1)
+    this.subscriptions.push(this.deadline.controls.month.valueChanges
+      .subscribe(value => this.flagsFilter.days = (value === this.now.getMonth() + 1))
     );
-    this.subscrDay = this.deadline.controls.day.valueChanges.subscribe(value => this.flagsFilter.hours = (value == this.now.getDate()));
-    this.subscrHour = this.deadline.controls.hour.valueChanges.subscribe(value => this.flagsFilter.minuts = (value == this.now.getHours()));
+    this.subscriptions.push(this.deadline.controls.day.valueChanges
+      .subscribe(value => this.flagsFilter.hours = (value === this.now.getDate()))
+    );
+    this.subscriptions.push(this.deadline.controls.hour.valueChanges
+      .subscribe(value => this.flagsFilter.minuts = (value === this.now.getHours()))
+    );
   }
 
   private counter = (start: number, end: number): number[] => {
@@ -77,7 +80,7 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
   createTask() {
     let deadline = new Date();
     this.flagError = this.title.invalid || this.responsible.invalid;
-    if (this.timer === true) {
+    if (this.isDeadline === true) {
       this.flagErrorDeadline = this.deadline.invalid;
       deadline = new Date(
         this.deadline.controls.year.value,
@@ -89,14 +92,15 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
     }
 
     if (!this.flagError && !this.flagErrorDeadline) {
-      this.boardsService.addTask(
+      this.kanbanService.addTask(
         this.idBoard,
         this.idStage,
         new Task(
+          this.kanbanService.getNextIdTask(),
           this.title.value,
-          this.discriptions.value,
+          this.descriptions.value,
           this.responsible.value,
-          this.timer,
+          this.isDeadline,
           deadline
         )
       );
@@ -110,16 +114,14 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
   getHours = () => this.flagsFilter.hours ? this.counter(new Date().getHours(), 23) : this.counter(0, 23);
   getMinutes = () => this.flagsFilter.minuts ? this.counter(new Date().getMinutes(), 59) : this.counter(0, 59);
   getDays = () => {
-    if (this.flagsFilter.days)
+    if (this.flagsFilter.days) {
       return this.counter(new Date().getDate(), this.getDaysInMonth(this.deadline.controls.year.value, this.deadline.controls.month.value - 1));
-    else
+    } else {
       return this.counter(1, this.getDaysInMonth(this.deadline.controls.year.value, this.deadline.controls.month.value - 1));
+    }
   };
 
   ngOnDestroy(): void {
-    this.subscrYear.unsubscribe();
-    this.subscrMonth.unsubscribe();
-    this.subscrDay.unsubscribe();
-    this.subscrHour.unsubscribe();
+    this.subscriptions.map(subscr => subscr.unsubscribe());
   }
 }

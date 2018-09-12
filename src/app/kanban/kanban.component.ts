@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {BoardDTO} from '../models/board-dto';
-import {Subscription} from 'rxjs';
-import {BoardsService} from '../services/boards.service';
-import {BackendService} from '../services/backend.service';
+import {KanbanService} from '../services/kanban.service';
+import {Board} from '../models/board';
 
 @Component({
   selector: 'app-kanban',
@@ -15,52 +13,34 @@ export class KanbanComponent implements OnInit {
   idBoard: number;
   idStage: number;
   idTask: number;
-  private idActiveBoard: number;
 
-  boardsDTO: BoardDTO[];
-
-  subscriptionGetBoards: Subscription;
-
-  ngOnInit() {
-    this.subscriptionGetBoards = this.backendService
-      .getBoards()
-      .subscribe((boardsDTO: BoardDTO[]) => this.boardsDTO = boardsDTO);
-  }
-
-  constructor(private boardsService: BoardsService, private backendService: BackendService) {
+  constructor(private kanbanService: KanbanService) {
     this.typeDialog = '';
-    this.setActive(0);
   }
 
-  setActive = (id: number) => this.idActiveBoard = id;
-  isActive = (id: number) => this.idActiveBoard === id ? true : false;
-  getIdActiveBoard = () => this.idActiveBoard;
+  ngOnInit(): void {
+  }
+
+  getBoards = (): Board[] => this.kanbanService.getBoards();
+  isActiveBoard = (id: number): boolean => this.kanbanService.isActiveBoard(id);
+  setIdActiveBoard = (id: number) => this.kanbanService.setIdActiveBoard(id);
+  deleteBoard = (board: Board) => this.kanbanService.deleteBoard(board);
 
   hideDialog = () => this.typeDialog = '';
-  getBoards = () => this.boardsService.getBoards();
-  deleteBoard = (idBoard: number) => {
-    this.boardsService.deleteBoard(idBoard);
-    let amt = this.boardsService.getBoards().length;
-    if (amt > 0)
-      this.setActive(amt - 1);
-    else
-      this.setActive(null);
-
-  };
-
-  showDialog = (type: string, idBoard: number = null, idStage: number = null, idTask: number = null) => {
+  showDialog = (type: string, idBoard?: number, idStage?: number, idTask?: number) => {
     this.typeDialog = type;
-    this.idBoard = idBoard;
-    this.idStage = idStage;
-    this.idTask = idTask;
+    this.idBoard = idBoard ? idBoard : null;
+    this.idStage = idStage ? idStage : null;
+    this.idTask = idTask ? idTask : null;
   };
 
-  moveTask = ($event: any) => this.boardsService.moveTask({
-    'idBoard': this.getIdActiveBoard(),
-    'idStage': $event.idStage,
-    'idTask': $event.idTask,
-    'direction': $event.direction
-  });
+
+  // moveTask = ($event: any) => this.boardsService.moveTask({
+  //   'idBoard': this.getIdActiveBoard(),
+  //   'idStage': $event.idStage,
+  //   'idTask': $event.idTask,
+  //   'direction': $event.direction
+  // });
 
 
 }

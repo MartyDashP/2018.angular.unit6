@@ -1,25 +1,23 @@
-<div class="dialog">
+<div class="dialog" [ngSwitch]="typeDialog">
   <div class="control">
     <button class="btn-close" (click)="closeDialog()">X</button>
   </div>
 
   <app-create-board
-    *ngIf="type === 'createBoard'"
-    (eventCreateBoard)="createBoard($event)">
+    *ngSwitchCase="'createBoard'"
+    (eventSuccessfulOperation)="closeDialog()">
   </app-create-board>
 
   <app-create-task
-    *ngIf="type === 'createTask'"
+    *ngSwitchCase="'createTask'"
     [idBoard]="idBoard"
     [idStage]="idStage"
     (eventSuccessfulOperation)="closeDialog()">
   </app-create-task>
 
   <app-details
-  *ngIf="type === 'details'"
-  [idBoard]="idBoard"
-  [idStage]="idStage"
-  [idTask]="idTask">
+    *ngSwitchCase="'details'"
+    [idTask]="idTask">
   </app-details>
 
 </div>
