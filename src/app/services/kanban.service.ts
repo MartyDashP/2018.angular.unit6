@@ -3,7 +3,8 @@ import {Board} from '../models/board';
 import {BackendService} from './backend.service';
 import {Stage} from '../models/stage';
 import {Task} from '../models/task';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
+import {repeatWhen} from 'rxjs/operators';
 
 @Injectable()
 export class KanbanService implements OnDestroy{
@@ -11,7 +12,8 @@ export class KanbanService implements OnDestroy{
   private boards: Board[] = [];
   private idActiveBoard: number = null;
 
-  subscrs: Subscription[] = [];
+  refresherBoards = new Subject();
+  subsBoards: Subscription;
 
   constructor(private backendService: BackendService) {
   }
@@ -23,15 +25,27 @@ export class KanbanService implements OnDestroy{
   isActiveBoard = (id: number): boolean => this.idActiveBoard === id ? true : false;
 
   deleteBoard = (board: Board) => {
-    this.subscrs.push(this.backendService.deleteBoardObj(board).subscribe());
-    this.idActiveBoard = this.boards.length !== 0 ? this.boards[0].id : null;
+    const subs = this.backendService.deleteBoardObj(board).subscribe(() => {
+      this.idActiveBoard = null;
+      this.refresherBoards.next();
+      subs.unsubscribe();
+    });
   };
 
-  addBoard = (board: Board) => this.subscrs.push(this.backendService.addBoardObj(board).subscribe());
+  addBoard = (board: Board) => {
+    const subs = this.backendService.addBoardObj(board)
+      .subscribe(() => {
+        this.idActiveBoard = board.id;
+        this.refresherBoards.next();
+      });
+  };
 
   addTask = (idBoard: number, idStage: number, task: Task) => {
     task.stageId = idStage;
-    this.subscrs.push(this.backendService.addTask(task).subscribe());
+    const subs = (this.backendService.addTask(task).subscribe(() => {
+      this.refresherBoards.next();
+      subs.unsubscribe();
+    }));
   };
 
   getTask = (idTask: number) => this.backendService.getCollection<Stage, Task>(
@@ -39,23 +53,26 @@ export class KanbanService implements OnDestroy{
     .filter(task => task.id === idTask)[0];
 
   moveTask = (idBoard: number, idStage: number, idTask: number, idNextStage: number) => {
-    let task = this.getTask(idTask);
+    const task = this.getTask(idTask);
     task.stageId = idNextStage;
-    this.subscrs.push(this.backendService.updTask(task).subscribe());
+    const subs = this.backendService.updTask(task).subscribe(() => {
+      this.refresherBoards.next();
+      subs.unsubscribe();
+    });
   };
 
   refreshBoards = () => {
-    this.subscrs.push(this.backendService.getBoardsObj()
+    this.subsBoards = this.backendService.getBoardsObj()
+      .pipe(repeatWhen(() => this.refresherBoards))
       .subscribe(boards => {
         this.boards = boards;
-        this.idActiveBoard = boards.length !== 0 ? boards[0].id : null;
-      }))
+        this.idActiveBoard = boards.length !== 0 ? (this.idActiveBoard ? this.idActiveBoard : boards[0].id) : null;
+      });
   };
 
   ngOnDestroy(): void {
-    this.subscrs.map(subscr => subscr.unsubscribe());
+    this.subsBoards.unsubscribe();
   }
-
 
 
 }

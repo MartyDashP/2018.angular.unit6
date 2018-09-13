@@ -58,11 +58,22 @@ export class BackendService {
   getBoardsObj = () => forkJoin([this.getBoards(), this.getStages(), this.getTasks()])
     .pipe(
       map(result => result[0].map(board => {
-        let brd = board;
+        const brd = board;
         brd.stages = result[1].filter(stage => stage.boardId === brd.id);
         brd.stages.map(stage => stage.tasks = result[2].filter(task => task.stageId === stage.id));
         return brd;
       }))
+    );
+
+  getBoardObj = (id: number) => forkJoin([this.getBoard(id), this.getStages(), this.getTasks()])
+    .pipe(
+      map(result => {
+          const board = result[0];
+          board.stages = result[1].filter(stage => stage.boardId === result[0].id);
+          board.stages.map(stage => stage.tasks = result[2].filter(task => task.stageId === stage.id));
+          return board;
+        }
+      )
     );
 
   getCollection = <T1, T2>(arrObj: T1[], prop: string): T2[] => {
