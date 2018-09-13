@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {Board} from '../../../models/board';
 import {Stage} from '../../../models/stage';
@@ -35,10 +35,9 @@ export class CreateBoardComponent {
     this.stages.map(stage => this.flagError = this.flagError === false ? stage.invalid : false);
 
     if (!this.flagError) {
-      let phases: Stage[] = [];
-      let lastIdStage: number = this.kanbanService.getNextIdStage() - 1;
-      this.stages.map(stage => phases.push(new Stage(lastIdStage++, stage.value)));
-      this.kanbanService.addBoard(new Board(this.kanbanService.getNextIdBoard(), this.titleBoard.value, phases));
+      const phases: Stage[] = [];
+      this.stages.map(stage => phases.push(new Stage(stage.value)));
+      this.kanbanService.addBoard(new Board(this.titleBoard.value, phases));
       this.eventSuccessfulOperation.emit();
     }
   };

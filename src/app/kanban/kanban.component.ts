@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {KanbanService} from '../services/kanban.service';
 import {Board} from '../models/board';
+import {Stage} from '../models/stage';
+import {Task} from '../models/task';
 
 @Component({
   selector: 'app-kanban',
@@ -19,6 +21,7 @@ export class KanbanComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.kanbanService.refreshBoards();
   }
 
   getBoards = (): Board[] => this.kanbanService.getBoards();
@@ -33,14 +36,5 @@ export class KanbanComponent implements OnInit {
     this.idStage = idStage ? idStage : null;
     this.idTask = idTask ? idTask : null;
   };
-
-
-  // moveTask = ($event: any) => this.boardsService.moveTask({
-  //   'idBoard': this.getIdActiveBoard(),
-  //   'idStage': $event.idStage,
-  //   'idTask': $event.idTask,
-  //   'direction': $event.direction
-  // });
-
 
 }

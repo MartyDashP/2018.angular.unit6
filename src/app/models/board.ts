@@ -5,8 +5,7 @@ export class Board {
   name: string;
   stages: Stage[];
 
-  constructor(id: number, name: string, stages: Stage[]) {
-    this.id = id;
+  constructor(name: string, stages: Stage[]) {
     this.name = name;
     this.stages = stages;
   }

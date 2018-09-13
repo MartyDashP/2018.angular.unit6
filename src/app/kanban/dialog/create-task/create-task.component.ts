@@ -96,7 +96,6 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
         this.idBoard,
         this.idStage,
         new Task(
-          this.kanbanService.getNextIdTask(),
           this.title.value,
           this.descriptions.value,
           this.responsible.value,

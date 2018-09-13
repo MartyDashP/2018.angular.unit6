@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {combineLatest, forkJoin, Observable} from 'rxjs';
 import {Board} from '../models/board';
 import {Stage} from '../models/stage';
 import {Task} from '../models/task';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 
 const URL = 'http://localhost:8080';
 
@@ -16,71 +16,60 @@ export class BackendService {
 
   // REST-API
   getBoards = (): Observable<Board[]> => this.http.get<Board[]>(`${URL}/boards`);
-  private addBoard = (board: Board): Observable<Board> => this.http.post<Board>(`${URL}/boards`, board);
-  private getBoard = (id: number): Observable<Board> => this.http.get<Board>(`${URL}/boards/${id}`);
-  private updBoard = (board: Board): Observable<Board> => this.http.put<Board>(`${URL}/boards/${board.id}`, board);
-  private delBoard = (id: number): Observable<null> => this.http.delete<null>(`${URL}/board/${id}`);
+  addBoard = (board: Board): Observable<Board> => this.http.post<Board>(`${URL}/boards`, board);
+  getBoard = (id: number): Observable<Board> => this.http.get<Board>(`${URL}/boards/${id}`);
+  pdBoard = (board: Board): Observable<Board> => this.http.put<Board>(`${URL}/boards/${board.id}`, board);
+  delBoard = (id: number): Observable<null> => this.http.delete<null>(`${URL}/board/${id}`);
 
   getStages = (): Observable<Stage[]> => this.http.get<Stage[]>(`${URL}/stages`);
-  private addStage = (stage: Stage): Observable<Stage> => this.http.post<Stage>(`${URL}/stages`, stage);
-  private getStage = (id: number): Observable<Stage> => this.http.get<Stage>(`${URL}/stages/${id}`);
-  private updStage = (stage: Stage): Observable<Stage> => this.http.put<Stage>(`${URL}/stages/${stage.id}`, stage);
-  private delStage = (id: number): Observable<null> => this.http.delete<null>(`${URL}/stages/${id}`);
+  addStage = (stage: Stage): Observable<Stage> => this.http.post<Stage>(`${URL}/stages`, stage);
+  getStage = (id: number): Observable<Stage> => this.http.get<Stage>(`${URL}/stages/${id}`);
+  updStage = (stage: Stage): Observable<Stage> => this.http.put<Stage>(`${URL}/stages/${stage.id}`, stage);
+  delStage = (id: number): Observable<null> => this.http.delete<null>(`${URL}/stages/${id}`);
 
-  private getTasksOfStage = (id: number): Observable<Task[]> => this.http.get<Task[]>(`${URL}/stages/${id}` + '/tasks');
+  getTasksOfStage = (id: number): Observable<Task[]> => this.http.get<Task[]>(`${URL}/stages/${id}` + '/tasks');
   getTasks = (): Observable<Task[]> => this.http.get<Task[]>(`${URL}/tasks`);
-  private addTask = (task: Task): Observable<Task> => this.http.post<Task>(`${URL}/tasks`, task);
-  private getTask = (id: number): Observable<Task> => this.http.get<Task>(`${URL}/tasks/${id}`);
-  private updTask = (task: Task): Observable<Task> => this.http.put<Task>(`${URL}/tasks/${task.id}`, task);
-  private delTask = (id: number): Observable<null> => this.http.delete<null>(`${URL}/tasks/${id}`);
+  addTask = (task: Task): Observable<Task> => this.http.post<Task>(`${URL}/tasks`, task);
+  getTask = (id: number): Observable<Task> => this.http.get<Task>(`${URL}/tasks/${id}`);
+  updTask = (task: Task): Observable<Task> => this.http.put<Task>(`${URL}/tasks/${task.id}`, task);
+  delTask = (id: number): Observable<null> => this.http.delete<null>(`${URL}/tasks/${id}`);
 
   // custom
-  getStagesOfBoardsObj = (id: number): Observable<Stage[]> => this.getStages()
+
+  deleteBoardObj = (board: Board) => forkJoin(
+    this.deleteTasks(this.getCollection<Stage, Task>(board.stages, 'tasks')),
+    this.deleteStages(board.stages),
+    this.delBoard(board.id)
+  );
+
+  deleteStages = (stages: Stage[]) => combineLatest(stages.map(stage => this.delStage(stage.id)));
+  deleteTasks = (tasks: Task[]) => combineLatest(tasks.map(task => this.delTask(task.id)));
+
+  addBoardObj = (board: Board) => this.addBoard(board)
     .pipe(
-      map(stages => stages.filter(stg => stg.boardId === id)),
-      map(stages => {
-        stages.forEach((stage) => {
-          let sub = this.getTasksOfStage(stage.id)
-            .pipe(
-            ).subscribe(tasks => stage.tasks = tasks);
-        });
-        return stages;
-      })
+      switchMap(brd => this.addStages(board.stages.map(stage => {
+        stage.boardId = brd.id;
+        return stage;
+      })))
     );
 
-  getBoardObj = (id: number): Observable<Board> => this.getBoard(id)
+  addStages = (stages: Stage[]) => combineLatest(stages.map(stage => this.addStage(stage)));
+
+  getBoardsObj = () => forkJoin([this.getBoards(), this.getStages(), this.getTasks()])
     .pipe(
-      map(board => {
-        // В общем не получается switchMap юзать для изменения отдельных свойств объекта
-        // Буду признателен если вы расскажите как :)
-        let sub = this.getStagesOfBoardsObj(id).subscribe(stages => board.stages = stages);
-        return board;
-      })
+      map(result => result[0].map(board => {
+        let brd = board;
+        brd.stages = result[1].filter(stage => stage.boardId === brd.id);
+        brd.stages.map(stage => stage.tasks = result[2].filter(task => task.stageId === stage.id));
+        return brd;
+      }))
     );
 
-  getBoardsObj = (): Observable<Board[]> => this.getBoards()
-    .pipe(
-      map(boards => {
-        boards.forEach((board) => {
-          let sub = this.getStagesOfBoardsObj(board.id).subscribe(stages => board.stages = stages);
-        });
-        return boards;
-      })
-    );
+  getCollection = <T1, T2>(arrObj: T1[], prop: string): T2[] => {
+    let arr: T2[] = [];
+    arrObj.map(obj => obj[prop].map(_item => arr.push(_item)));
+    return arr;
+  };
 
-  deleteBoardObj = (board: Board) => {
-    board.stages.forEach(stage => {
-      stage.tasks.forEach(task => this.delTask(task.id).subscribe());
-      this.delStage(stage.id).subscribe();
-    })
-    this.delBoard(board.id).subscribe();
-  }
-
-  addBoardObj = (board: Board) => {
-    let maxStageId =
-    board.stages.forEach(stage => {
-
-    })
-  }
 
 }

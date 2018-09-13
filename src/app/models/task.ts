@@ -8,8 +8,7 @@ export class Task {
   priority: number;
   stageId: number;
 
-  constructor(id: number, title: string, description: string, responsible: string, isDeadline: boolean, deadline: Date = null) {
-    this.id = id;
+  constructor(title: string, description: string, responsible: string, isDeadline: boolean, deadline: Date = null) {
     this.name = title;
     this.description = description;
     this.executor = responsible;
