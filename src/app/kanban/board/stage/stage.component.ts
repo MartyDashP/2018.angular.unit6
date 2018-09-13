@@ -11,7 +11,7 @@ export class StageComponent implements OnInit {
   @Input() stage: Stage;
   @Input() isLastStage: boolean;
   @Input() isFirstStage: boolean;
-  @Output() eventMoveTask: EventEmitter<{direction: string, idTask: number}> = new EventEmitter<{direction: string, idTask: number}>();
+  @Output() eventMoveTask: EventEmitter<{ direction: string, idTask: number }> = new EventEmitter<{ direction: string, idTask: number }>();
   @Output() eventDialogAddTask: EventEmitter<null> = new EventEmitter<null>();
   @Output() eventShowDetails: EventEmitter<number> = new EventEmitter<number>();
 

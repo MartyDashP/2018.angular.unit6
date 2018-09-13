@@ -15,7 +15,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   @Output() eventMoveTask: EventEmitter<string> = new EventEmitter<string>();
   @Output() eventShowDetails: EventEmitter<null> = new EventEmitter<null>();
 
-  data: {isDeadline: boolean, deadline: number, description: string};
+  data: { isDeadline: boolean, deadline: number, description: string };
   remainingTime: string;
   private timer: number;
 

@@ -96,7 +96,7 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
         'description': this.descriptions.value,
         'isDeadline': this.isDeadline,
         'deadline': deadline.getTime()
-      }
+      };
       this.kanbanService.addTask(
         this.idBoard,
         this.idStage,
