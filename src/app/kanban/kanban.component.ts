@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {KanbanService} from '../services/kanban.service';
 import {Board} from '../models/board';
-import {Stage} from '../models/stage';
-import {Task} from '../models/task';
 
 @Component({
   selector: 'app-kanban',

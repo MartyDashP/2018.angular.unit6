@@ -17,5 +17,6 @@ export class DetailsComponent implements OnInit {
   }
 
   getTask = (): Task => this.kanbanService.getTask(this.idTask);
+  getDescriptionOfTasl = (): String => JSON.parse(this.getTask().description).description;
 
 }

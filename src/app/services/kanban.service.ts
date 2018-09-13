@@ -7,7 +7,7 @@ import {Subject, Subscription} from 'rxjs';
 import {repeatWhen} from 'rxjs/operators';
 
 @Injectable()
-export class KanbanService implements OnDestroy{
+export class KanbanService implements OnDestroy {
 
   private boards: Board[] = [];
   private idActiveBoard: number = null;

@@ -92,15 +92,18 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
     }
 
     if (!this.flagError && !this.flagErrorDeadline) {
+      const data = {
+        'description': this.descriptions.value,
+        'isDeadline': this.isDeadline,
+        'deadline': deadline.getTime()
+      }
       this.kanbanService.addTask(
         this.idBoard,
         this.idStage,
         new Task(
           this.title.value,
-          this.descriptions.value,
-          this.responsible.value,
-          this.isDeadline,
-          deadline
+          JSON.stringify(data),
+          this.responsible.value
         )
       );
       this.eventSuccessfulOperation.emit();

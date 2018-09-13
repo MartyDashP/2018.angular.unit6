@@ -15,6 +15,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   @Output() eventMoveTask: EventEmitter<string> = new EventEmitter<string>();
   @Output() eventShowDetails: EventEmitter<null> = new EventEmitter<null>();
 
+  data: {isDeadline: boolean, deadline: number, description: string};
   remainingTime: string;
   private timer: number;
 
@@ -23,19 +24,20 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.task.isDeadline) this.timer = setInterval(() => this.remainingTime = this.getRemainingTime(), 1000);
+    this.data = JSON.parse(this.task.description);
+    if (this.data.isDeadline) this.timer = setInterval(() => this.remainingTime = this.getRemainingTime(), 1000);
   }
 
   private getRemainingTime = (): string => {
-    let delta: number = this.task.deadline.getTime() - new Date().getTime();
+    const delta: number = this.data.deadline - new Date().getTime();
     if (delta > 0) {
-      let day: UnitTime = new UnitTime(Math.floor(delta / 1000 / 60 / 60 / 24), 'Дни');
-      let hour: UnitTime = new UnitTime(Math.floor((delta / 1000 / 60 / 60) - day.value * 24), 'Часы');
-      let min: UnitTime = new UnitTime(
+      const day: UnitTime = new UnitTime(Math.floor(delta / 1000 / 60 / 60 / 24), 'Дни');
+      const hour: UnitTime = new UnitTime(Math.floor((delta / 1000 / 60 / 60) - day.value * 24), 'Часы');
+      const min: UnitTime = new UnitTime(
         Math.floor((delta / 1000 / 60) - day.value * 24 * 60 - hour.value * 60),
         'Минуты'
       );
-      let sec: UnitTime = new UnitTime(
+      const sec: UnitTime = new UnitTime(
         Math.floor((delta / 1000) - day.value * 24 * 60 * 60 - hour.value * 60 * 60 - min.value * 60),
         'Секунды');
       return `${day.getFullValue()}, ${hour.getFullValue()}, ${min.getFullValue()}, ${sec.getFullValue()}`;
