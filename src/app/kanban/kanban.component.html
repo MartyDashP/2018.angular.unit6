@@ -1,0 +1,35 @@
+<h1>Канбан</h1>
+<div class="tabs">
+  <ul>
+    <li *ngFor="let board of getBoards()"
+        [ngClass]="{'active': isActiveBoard(board.id) === true, 'notActive': isActiveBoard(board.id) === false}"
+        (click)="setIdActiveBoard(board.id)">
+      {{board.name}}
+      <button
+        class="delete"
+        (click)="deleteBoard(board)">
+        X
+      </button>
+    </li>
+
+  </ul>
+  <button (click)="showDialog('createBoard')" class="notActive">+</button>
+</div>
+
+<app-dialog
+  *ngIf="typeDialog !== ''"
+  [typeDialog]="typeDialog"
+  [idBoard]="idBoard"
+  [idStage]="idStage"
+  [idTask]="idTask"
+  (eventCloseDialog)="hideDialog()">
+</app-dialog>
+
+<app-board
+  (eventDialogAddTask)="showDialog('createTask', $event.idBoard, $event.idStage)"
+  (eventShowDetails)="showDialog('details', null, null, $event)">
+
+  <!--(eventMoveTask)="moveTask($event)"-->
+  <!--[idActiveBoard]="getIdActiveBoard()"-->
+
+</app-board>

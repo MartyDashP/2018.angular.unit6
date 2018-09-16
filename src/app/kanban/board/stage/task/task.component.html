@@ -1,0 +1,14 @@
+<p class="title">
+  {{task.name}}
+</p>
+<p *ngIf="data.isDeadline">
+  Дедлайн через: <br>
+  {{remainingTime}}
+</p>
+
+<div class="moveBtns">
+  <button *ngIf="!isFirstStage" (click)="moveTask('<')"><--</button>
+  <button (click)="showDetails()">Подробнее</button>
+  <button *ngIf="!isLastStage" (click)="moveTask('>')">--></button>
+</div>
+

@@ -1,0 +1,23 @@
+<div class="dialog" [ngSwitch]="typeDialog">
+  <div class="control">
+    <button class="btn-close" (click)="closeDialog()">X</button>
+  </div>
+
+  <app-create-board
+    *ngSwitchCase="'createBoard'"
+    (eventSuccessfulOperation)="closeDialog()">
+  </app-create-board>
+
+  <app-create-task
+    *ngSwitchCase="'createTask'"
+    [idBoard]="idBoard"
+    [idStage]="idStage"
+    (eventSuccessfulOperation)="closeDialog()">
+  </app-create-task>
+
+  <app-details
+    *ngSwitchCase="'details'"
+    [idTask]="idTask">
+  </app-details>
+
+</div>

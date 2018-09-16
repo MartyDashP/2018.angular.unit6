@@ -1,0 +1,14 @@
+<div class="header">
+  <p>{{stage.name}}</p>
+  <button (click)="addTask()">+</button>
+</div>
+
+<div *ngFor="let task of stage.tasks let idTask = index">
+  <app-task
+    [task]="task"
+    [isLastStage]="isLastStage"
+    [isFirstStage]="isFirstStage"
+    (eventMoveTask)="moveTask($event, task.id)"
+    (eventShowDetails)="showDetails(task.id)">
+  </app-task>
+</div>

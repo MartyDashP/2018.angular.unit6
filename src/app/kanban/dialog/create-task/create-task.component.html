@@ -1,0 +1,54 @@
+<p class="title">Новая задача</p>
+
+<input placeholder="Задача*" [formControl]="title">
+<input placeholder="Ответсвенный*" [formControl]="responsible">
+<textarea [formControl]="descriptions" placeholder="Описание"></textarea>
+<label>
+  <input type="checkbox" [(ngModel)]="isDeadline"> Дедлайн
+</label>
+
+<form *ngIf="isDeadline" [formGroup]="deadline" class="deadline-group">
+
+  <div class="group-h-nw">
+
+    <label class="group-v-nw">Год:
+      <select formControlName="year">
+        <option *ngFor="let yy of getYears()" [value]="yy">{{yy}}</option>
+      </select>
+    </label>
+
+    <label class="group-v-nw">Месяц:
+      <select formControlName="month">
+        <option *ngFor="let mm of getMonths()" [value]="mm">{{mm}}</option>
+      </select>
+    </label>
+
+    <label class="group-v-nw">Число:
+      <select formControlName="day">
+        <option *ngFor="let dd of getDays()" [value]="dd">{{dd}}</option>
+      </select>
+    </label>
+
+  </div>
+
+  <div class="group-h-nw">
+    <label class="group-v-nw">Час:
+      <select formControlName="hour">
+        <option *ngFor="let hh of getHours()" [value]="hh">{{hh}}</option>
+      </select>
+    </label>
+
+    <label class="group-v-nw">Минута:
+      <select formControlName="minute">
+        <option *ngFor="let mm of getMinutes()" [value]="mm">{{mm}}</option>
+      </select>
+    </label>
+
+  </div>
+
+</form>
+
+<p *ngIf="flagError" class="msg-error">Поля со знаком * должны юыть заполнены!</p>
+<p *ngIf="flagErrorDeadline" class="msg-error">Дата дедлайна далжна быть указана!</p>
+
+<button class="submit" (click)="createTask()">Создать</button>
